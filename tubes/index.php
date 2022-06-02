@@ -23,7 +23,7 @@
                         <a class="nav-link active" href="index.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Produk</a>
+                        <a class="nav-link" href="tampilan_produk.php">Produk</a>
                     </li>
                 </ul>
 
@@ -40,7 +40,7 @@
             <div class="container-fluid py-5">
                 <h1 class="display-5 fw-bold">Welcome to Pictimart</h1>
                 <p class="col-md-8 fs-4 text-secondary"><em>Setelah Memakai Produk Kami, Jangan Lupa Memberikan Testimoni Positif Agar Kami Lebih Baik.</em></p>
-                <a href="#" class="btn btn-primary btn-lg" style="margin-top: 1rem;">Lihat Detail</a>
+                <a href="login.php" class="btn btn-primary btn-lg" style="margin-top: 1rem;">Lihat Detail</a>
             </div>
         </div>
     </div>
