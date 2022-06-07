@@ -1,5 +1,5 @@
 <?php
-// session_start();
+session_start();
 
 // if (!isset($_SESSION["login"])) {
 //     header("Location: login.php");
@@ -13,7 +13,8 @@ if (isset($_GET["cari"])) {
     $keyword = $_GET["keyword"];
     $query = "SELECT * FROM produk WHERE
                 nama LIKE '%$keyword%' OR
-                jenis LIKE '%$keyword%'
+                jenis LIKE '$keyword%' OR
+                harga LIKE '$keyword%'
             ";
     $produk = query($query);
 }
