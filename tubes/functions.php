@@ -22,57 +22,35 @@ function query($sql)
 
 function upload()
 {
-    $namaFile = $_FILES["gambar"]["name"];
-    $tipeFile = $_FILES["gambar"]["type"];
-    $ukuranFile = $_FILES["gambar"]["size"];
-    $error = $_FILES["gambar"]["error"];
-    $tmpFile = $_FILES["gambar"]["tmp_name"];
+    // siapkan data gambar
+    $filename = $_FILES["gambar"]["name"];
+    $filetmpname = $_FILES["gambar"]["tmp_name"];
+    $filesize = $_FILES["gambar"]["size"];
+    $filetype = pathinfo($filename, PATHINFO_EXTENSION);
+    $allowedtype = ["jpg", "jpeg", "png", "JPG", "JPEG", "PNG"];
 
-    // ketika tidak ada gambar yang dipilih
-    if ($error == 4) {
+    // cek apakah yang diupload bukan gambar
+    if (!in_array(strtolower($filetype), $allowedtype)) {
         echo "<script>
-                alert('pilih gambar terlebih dahulu');
-            </script>";
-    }
-
-    // cek ekstensi file
-    $daftarGambar = ['jpg', 'jpeg', 'png'];
-    $ekstensiFile = explode('.', $namaFile);
-    $ekstensiFile = strtolower(end($ekstensiFile));
-
-    if (!in_array($ekstensiFile, $daftarGambar)) {
-        echo "<script>
-                alert('yang anda pilih bukan gambar!');
+                alert('yang anda upload bukan gambar!');
             </script>";
         return false;
     }
 
-    // cek type file
-    if ($tipeFile != 'image/jpeg' && $tipeFile = 'image/png') {
+    // cek apakah gambar terlalu besar
+    // 1Mb = 1000000
+    if ($filesize > 1000000) {
         echo "<script>
-                alert('yang anda pilih bukan gambar');
+                alert('ukuran gambar terlalu besar!');
             </script>";
         return false;
     }
 
-    // cek ukuran file
-    // maksimal 5Mb == 5000000
-    if ($ukuranFile > 5000000) {
-        echo "<script>
-                alert('ukurannya gambar terlalu besar!');
-            </script>";
-        return false;
-    }
+    // proses upload gambar
+    $newfilename = uniqid() . $filename;
+    move_uploaded_file($filetmpname, 'img/' . $newfilename);
 
-    // lolos pengecekan
-    // siap upload file
-    // generate nama file baru
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiFile;
-    move_uploaded_file($tmpFile, 'img/' . $namaFileBaru);
-
-    return $namaFileBaru;
+    return $newfilename;
 }
 
 function tambah($data)
@@ -138,29 +116,29 @@ function ubah($data)
     return mysqli_affected_rows($conn);
 }
 
-// function login($data)
-// {
-//     $conn = koneksi();
+function login($data)
+{
+    $conn = koneksi();
 
-//     $username = htmlspecialchars($data["username"]);
-//     $password1 = htmlspecialchars($data["password1"]);
+    $username = htmlspecialchars($data["username"]);
+    $password1 = htmlspecialchars($data["password1"]);
 
-//     // cek dulu username
-//     if ($user = query("SELECT * FROM user WHERE username = '$username'")) {
-//         // cek password
-//         if (password_verify($password1, $user["password1"])) {
-//             // set session
-//             $_SESSION["login"] = true;
+    // cek dulu username
+    if ($user = query("SELECT * FROM user WHERE username = '$username'")) {
+        // cek password
+        if (password_verify($password1, $user["password1"])) {
+            // set session
+            $_SESSION["login"] = true;
 
-//             header("Location: admin.php");
-//             exit;
-//         }
-//         return [
-//             'error' => true,
-//             'pesan' => 'username atau passwordnya salah!'
-//         ];
-//     }
-// }
+            header("Location: admin.php");
+            exit;
+        }
+        return [
+            'error' => true,
+            'pesan' => 'username atau passwordnya salah!'
+        ];
+    }
+}
 
 function registrasi($data)
 {

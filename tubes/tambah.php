@@ -57,7 +57,8 @@ if (isset($_POST["tambah"])) {
 
                     <div class="mb-3">
                         <label for="gambar" class="form-label">Gambar</label>
-                        <input type="file" class="form-control border-info" id="gambar" name="gambar">
+                        <img src="" class="img-thumbnail" style="width: 120px; display: none;" id="img-preview">
+                        <input type="file" class="form-control" id="gambar" name="gambar" onchange="previewImage();">
                     </div>
 
                     <button type="submit" name="tambah" class="btn btn-info">Tambah Data Produk</button>
