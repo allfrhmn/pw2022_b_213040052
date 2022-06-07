@@ -22,9 +22,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="index.php">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="tampilan_produk.php">Produk</a>
-                    </li>
                 </ul>
 
                 <div class="text-end">
